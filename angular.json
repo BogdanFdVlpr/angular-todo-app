@@ -30,7 +30,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/index.scss",
+              "bulma/css/bulma.css",
+              "@fortawesome/fontawesome-free/css/all.css"
             ],
             "scripts": []
           },
