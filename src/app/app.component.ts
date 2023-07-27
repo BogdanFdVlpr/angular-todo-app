@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Todo } from './types/todo';
 
 let initialTodos = [
   { id: 1, title: 'HTML + CSS', completed: true},
@@ -8,12 +9,6 @@ let initialTodos = [
   { id: 4, title: 'Vue.js', completed: false}
 ]
 
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,7 +16,6 @@ interface Todo {
 })
   
 export class AppComponent {
-  editing = false;
   todos = initialTodos;
   todoForm = new FormGroup({
     title: new FormControl('', {

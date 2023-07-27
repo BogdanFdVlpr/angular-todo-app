@@ -19,70 +19,11 @@
     </header>
 
     <section class="todoapp__main">
-      <div
+      <app-todo
         *ngFor="let todo of todos; let i = index"
-        [class.completed]="todo.completed"
-        class="todo"
-      >
-        <label class="todo__status-label">
-          <input
-            type="checkbox"
-            class="todo__status"
-            [(ngModel)]="todo.completed"
-          />
-        </label>
-
-        <form *ngIf="editing; else titleBlock">
-          <input
-            type="text"
-            class="todo__title-field"
-            placeholder="Empty todo will be deleted"
-          />
-        </form>
-
-        <ng-template #titleBlock>
-          <span class="todo__title">{{ todo.title }}</span>
-          <button class="todo__remove" (click)="todos.splice(i, 1)">×</button>
-        </ng-template>
-
-        <div class="modal overlay" [class.is-active]="false">
-          <div class="modal-background has-background-white-ter"></div>
-          <div class="loader"></div>
-        </div>
-      </div>
-
-      <div class="todo">
-        <label class="todo__status-label">
-          <input type="checkbox" class="todo__status" />
-        </label>
-
-        <form>
-          <input
-            type="text"
-            class="todo__title-field"
-            placeholder="Empty todo will be deleted"
-          />
-        </form>
-
-        <div class="modal overlay">
-          <div class="modal-background has-background-white-ter"></div>
-          <div class="loader"></div>
-        </div>
-      </div>
-
-      <div class="todo">
-        <label class="todo__status-label">
-          <input type="checkbox" class="todo__status" />
-        </label>
-
-        <span class="todo__title">Redux</span>
-        <button type="button" class="todo__remove">×</button>
-
-        <div class="modal overlay is-active">
-          <div class="modal-background has-background-white-ter"></div>
-          <div class="loader"></div>
-        </div>
-      </div>
+        [todo]="todo"
+        (delete)="todos.splice(i, 1)"
+      ></app-todo>
     </section>
 
     <footer class="todoapp__footer">
