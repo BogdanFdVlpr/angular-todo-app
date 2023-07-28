@@ -1,13 +1,6 @@
-import { Component, } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, } from '@angular/core';
 import { Todo } from './types/todo';
-
-let initialTodos = [
-  { id: 1, title: 'HTML + CSS', completed: true},
-  { id: 2, title: 'JS', completed: false},
-  { id: 3, title: 'React', completed: false},
-  { id: 4, title: 'Vue.js', completed: false}
-]
+import { TodosService } from './services/todos.service';
 
 @Component({
   selector: 'app-root',
@@ -15,38 +8,40 @@ let initialTodos = [
   styleUrls: ['./app.component.scss']
 })
   
-export class AppComponent {
-  todos = initialTodos;
-  todoForm = new FormGroup({
-    title: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(3),
-      ]
-    }),
-  })
+export class AppComponent implements OnInit{
+  _todos: Todo[] = [];
+  activeTodos: Todo[] = [];
 
-
-  get title() {
-    return this.todoForm.get('title') as FormControl;
+  get todos() {
+    return this._todos;
   }
 
-  get activeTodos() {
-    return this.todos.filter(todo => !todo.completed)
+  set todos(todos: Todo[]) {
+    if (todos === this._todos) {
+      return
+    }
+
+    this._todos = todos;
+    this.activeTodos = this._todos.filter(todo => !todo.completed)
   }
+
+  constructor(
+    private todosService: TodosService,
+  ) {
+
+  }
+
+  ngOnInit(): void {
+    this.todosService.getTodos()
+      .subscribe((todos) => {
+        this.todos = todos;
+    })
+  }
+
+  
 
   trackById(i: number, todo: Todo) {
     return todo.id;
-  }
-
-  handleFormSubmit() {
-    if (this.todoForm.invalid) {
-      return;
-    }
-    this.addTodo(this.title.value);
-    
-    this.todoForm.reset();
   }
 
   addTodo(newTitle: string) {

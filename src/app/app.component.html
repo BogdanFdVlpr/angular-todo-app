@@ -1,21 +1,11 @@
 <div class="todoapp">
   <h1 class="todoapp__title">todos</h1>
 
-  {{ title.errors | json }}
-
   <div class="todoapp__content">
     <header class="todoapp__header">
       <button type="button" class="todoapp__toggle-all active"></button>
 
-      <form (ngSubmit)="handleFormSubmit()" [formGroup]="todoForm">
-        <input
-          type="text"
-          class="todoapp__new-todo"
-          [style.backgroundColor]="title.errors && title.dirty ? '#f88' : ''"
-          placeholder="What needs to be done?"
-          formControlName="title"
-        />
-      </form>
+      <app-todo-form (save)="addTodo($event)"></app-todo-form>
     </header>
 
     <section class="todoapp__main">

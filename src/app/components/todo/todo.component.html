@@ -5,7 +5,7 @@
       class="todo__status"
       [checked]="todo.completed"
       (change)="toggle.emit()"
-      />
+    />
   </label>
 
   <form *ngIf="editing; else titleBlock" (ngSubmit)="save()">
