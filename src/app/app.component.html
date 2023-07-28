@@ -7,7 +7,7 @@
     <header class="todoapp__header">
       <button type="button" class="todoapp__toggle-all active"></button>
 
-      <form (ngSubmit)="addTodo()" [formGroup]="todoForm">
+      <form (ngSubmit)="handleFormSubmit()" [formGroup]="todoForm">
         <input
           type="text"
           class="todoapp__new-todo"
@@ -20,9 +20,11 @@
 
     <section class="todoapp__main">
       <app-todo
-        *ngFor="let todo of todos; let i = index"
+        *ngFor="let todo of todos; let i = index; trackBy: trackById"
         [todo]="todo"
-        (delete)="todos.splice(i, 1)"
+        (delete)="deleteTodo(todo.id)"
+        (rename)="renameTodo(todo.id, $event)"
+        (toggle)="toggleTodo(todo.id)"
       ></app-todo>
     </section>
 

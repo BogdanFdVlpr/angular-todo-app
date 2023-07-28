@@ -1,22 +1,28 @@
 <div [class.completed]="todo.completed" class="todo">
   <label class="todo__status-label">
-    <input type="checkbox" class="todo__status" [(ngModel)]="todo.completed" />
+    <input
+      type="checkbox"
+      class="todo__status"
+      [checked]="todo.completed"
+      (change)="toggle.emit()"
+      />
   </label>
 
-  <form *ngIf="editing; else titleBlock">
+  <form *ngIf="editing; else titleBlock" (ngSubmit)="save()">
     <input
       #titleField
       type="text"
       class="todo__title-field"
       placeholder="Empty todo will be deleted"
       name="title"
-      [(ngModel)]="todo.title"
+      [(ngModel)]="title"
       (keyup.escape)="editing = false"
+      (blur)="save()"
     />
   </form>
 
   <ng-template #titleBlock>
-    <span class="todo__title" (dblclick)="editing = true">
+    <span class="todo__title" (dblclick)="edit()">
       {{ todo.title }}
     </span>
     <button class="todo__remove" (click)="delete.emit()">×</button>

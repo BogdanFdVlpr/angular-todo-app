@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Todo } from './types/todo';
 
@@ -36,17 +36,54 @@ export class AppComponent {
     return this.todos.filter(todo => !todo.completed)
   }
 
-  addTodo() {
+  trackById(i: number, todo: Todo) {
+    return todo.id;
+  }
+
+  handleFormSubmit() {
     if (this.todoForm.invalid) {
       return;
     }
+    this.addTodo(this.title.value);
+    
+    this.todoForm.reset();
+  }
+
+  addTodo(newTitle: string) {
     const newTodo: Todo = {
       id: Date.now(),
-      title: this.title.value,
+      title: newTitle,
       completed: false,
     };
 
-    this.todos.push(newTodo);
-    this.todoForm.reset();
+    this.todos = [...this.todos, newTodo];
+  }
+
+  toggleTodo(todoId: number) {
+    this.todos = this.todos.map(todo => {
+      if (todo.id !== todoId) {
+        return todo;
+      }
+
+      return {
+        ...todo, completed: !todo.completed
+      }
+    })
+  }
+  
+  renameTodo(todoId: number, title: string) {
+    this.todos = this.todos.map(todo => {
+      if (todo.id !== todoId) {
+        return todo;
+      }
+
+      return {
+        ...todo, title
+      }
+    })
+  }
+
+  deleteTodo(todoId: number) {
+    this.todos = this.todos.filter(todo => todo.id !== todoId)
   }
 }
